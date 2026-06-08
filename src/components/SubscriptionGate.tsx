@@ -12,12 +12,10 @@ type State =
   | { kind: "blocked"; data: SubData }
   | { kind: "error"; msg: string };
 
+import { fetchSubscriptionData } from "@/lib/subscription.server";
+
 async function fetchSub(): Promise<SubData> {
-  const res = await fetch(SUB_URL, { cache: "no-store" });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
-  const txt = await res.text();
-  const json = JSON.parse(txt);
-  return { sub: !!json.sub, expiry_date: String(json.expiry_date || "") };
+  return await fetchSubscriptionData();  // ✅ Calls server function
 }
 
 export function SubscriptionGate({ children }: { children: ReactNode }) {
