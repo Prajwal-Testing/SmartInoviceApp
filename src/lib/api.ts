@@ -35,11 +35,12 @@ export async function listProducts(): Promise<Product[]> {
   return (data ?? []) as Product[];
 }
 export async function upsertProduct(p: Partial<Product> & { id?: string }) {
+  const productName = p.product_name ?? "";
   if (p.id) {
-    const { error } = await supabase.from("products").update({ product_name: p.product_name ?? "" }).eq("id", p.id);
+    const { error } = await supabase.from("products").update({ product_name: productName }).eq("id", p.id);
     if (error) throw error;
   } else {
-    const { data, error } = await supabase.from("products").insert({ product_name: p.product_name }).select().single();
+    const { data, error } = await supabase.from("products").insert({ product_name: productName }).select().single();
     if (error) throw error;
     return data as Product;
   }
