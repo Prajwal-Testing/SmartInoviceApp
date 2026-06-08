@@ -1,10 +1,14 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/client",
-  "rewrites": [
+  "functions": {
+    "dist/server/server.js": {
+      "runtime": "edge"
+    }
+  },
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "/(.*)",
+      "dest": "dist/server/server.js"
     }
   ]
 }
